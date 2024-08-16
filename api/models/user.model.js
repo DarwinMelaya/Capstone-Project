@@ -1,3 +1,4 @@
+// user.model.js
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -25,6 +26,11 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    firmName: String,
+    municipality: String,
+    firmOwner: String,
+    details: String,
+    amountOfAssistance: Number,
   },
   { timestamps: true }
 );

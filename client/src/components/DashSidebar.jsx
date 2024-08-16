@@ -1,10 +1,6 @@
 import { Sidebar } from "flowbite-react";
-import {
-  HiUser,
-  HiArrowSmRight,
-  HiDocumentText,
-  HiOutlineUserGroup,
-} from "react-icons/hi";
+import { HiUser, HiArrowSmRight, HiOutlineUserGroup } from "react-icons/hi";
+import { MdDashboard } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -16,6 +12,7 @@ export default function DashSidebar() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const [tab, setTab] = useState("");
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
@@ -23,6 +20,7 @@ export default function DashSidebar() {
       setTab(tabFromUrl);
     }
   }, [location.search]);
+
   const handleSignout = async () => {
     try {
       const res = await fetch("/api/user/signout", {
@@ -38,6 +36,7 @@ export default function DashSidebar() {
       console.log(error.message);
     }
   };
+
   return (
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
@@ -54,24 +53,24 @@ export default function DashSidebar() {
             </Sidebar.Item>
           </Link>
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=posts">
-              <Sidebar.Item
-                active={tab === "posts"}
-                icon={HiDocumentText}
-                as="div"
-              >
-                Posts
-              </Sidebar.Item>
-            </Link>
-          )}
-          {currentUser.isAdmin && (
             <Link to="/dashboard?tab=users">
               <Sidebar.Item
                 active={tab === "users"}
                 icon={HiOutlineUserGroup}
                 as="div"
               >
-                Users
+                Customer
+              </Sidebar.Item>
+            </Link>
+          )}
+          {!currentUser.isAdmin && (
+            <Link to="/dashboard?tab=assistance">
+              <Sidebar.Item
+                active={tab === "assistance"}
+                icon={MdDashboard}
+                as="div"
+              >
+                Dashboard
               </Sidebar.Item>
             </Link>
           )}

@@ -4,10 +4,12 @@ import DashSidebar from "../components/DashSidebar";
 import DashProfile from "../components/DashProfile";
 import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
+import UserAssistancePage from "./UserAssistancePage"; // Import the UserAssistancePage
 
 export default function Dashboard() {
   const location = useLocation();
   const [tab, setTab] = useState("");
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
@@ -15,6 +17,7 @@ export default function Dashboard() {
       setTab(tabFromUrl);
     }
   }, [location.search]);
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       <div className="md:w-56">
@@ -27,6 +30,9 @@ export default function Dashboard() {
       {tab === "posts" && <DashPosts />}
       {/* users */}
       {tab === "users" && <DashUsers />}
+      {/* assistance */}
+      {tab === "assistance" && <UserAssistancePage />}{" "}
+      {/* Add the assistance tab */}
     </div>
   );
 }
