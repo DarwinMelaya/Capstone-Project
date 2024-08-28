@@ -12,6 +12,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
+import DOSTlogo from "../images/DOSTlogo.png"; // Adjust the path as needed
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -39,10 +40,15 @@ export default function Header() {
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-blue-800 via-blue-500 to-blue-400 rounded-lg text-white">
-          SETUP
+        <span className="flex items-center px-2 py-1 bg-gradient-to-r from-blue-800 via-blue-500 to-blue-500 rounded-lg text-white">
+          {/* Logo Image */}
+          <img
+            src={DOSTlogo} // Use the imported image
+            alt="DOST Logo"
+            className="h-10 w-10 mr-2" // Adjust size and spacing as needed
+          />
+          DOST: SETUP Refund Monitoring System
         </span>
-        Refund Monitoring System
       </Link>
       <form>
         <TextInput

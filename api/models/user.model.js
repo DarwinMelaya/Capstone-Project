@@ -1,5 +1,24 @@
-// user.model.js
 import mongoose from "mongoose";
+
+const refundSchema = new mongoose.Schema(
+  {
+    refundRate: { type: Number, default: 0 },
+    totalRefundPayment: { type: Number, default: 0 },
+    refundStatus: { type: String, default: "Pending" },
+    monthlyDue: { type: Number, default: 0 },
+    refundPayment: { type: Number, default: 0 },
+    arrears: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
+const scheduleSchema = new mongoose.Schema(
+  {
+    date: { type: Date, required: true },
+    details: { type: String, required: true },
+  },
+  { _id: false }
+);
 
 const userSchema = new mongoose.Schema(
   {
@@ -31,6 +50,9 @@ const userSchema = new mongoose.Schema(
     firmOwner: String,
     details: String,
     amountOfAssistance: Number,
+    refunds: refundSchema,
+    schedules: [scheduleSchema], // Add this line
+    changeDate: { type: Date }, // New field for tracking the change date
   },
   { timestamps: true }
 );

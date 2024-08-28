@@ -5,6 +5,8 @@ import DashProfile from "../components/DashProfile";
 import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
 import UserAssistancePage from "./UserAssistancePage"; // Import the UserAssistancePage
+import UserList from "../components/UserList";
+import RefundSchedule from "./RefundSchedule";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -33,6 +35,8 @@ export default function Dashboard() {
       {/* assistance */}
       {tab === "assistance" && <UserAssistancePage />}{" "}
       {/* Add the assistance tab */}
+      {tab === "user-list" && <UserList />}
+      {tab === "refund-schedule" && <RefundSchedule />}
     </div>
   );
 }

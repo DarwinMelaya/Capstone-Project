@@ -32,6 +32,8 @@ export const updateUser = async (req, res, next) => {
           firmOwner: req.body.firmOwner,
           details: req.body.details,
           amountOfAssistance: req.body.amountOfAssistance,
+          refunds: req.body.refunds, // Include the new refund fields
+          changeDate: req.body.changeDate, // Handle the changeDate field
         },
       },
       { new: true }

@@ -53,16 +53,47 @@ export default function DashSidebar() {
             </Sidebar.Item>
           </Link>
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=users">
+            <>
+              <Link to="/dashboard?tab=users">
+                <Sidebar.Item
+                  active={tab === "users"}
+                  icon={HiOutlineUserGroup}
+                  labelColor="dark"
+                  as="div"
+                >
+                  Customer
+                </Sidebar.Item>
+              </Link>
+            </>
+          )}
+          {currentUser.isAdmin && (
+            <>
+              <Link to="/dashboard?tab=user-list">
+                <Sidebar.Item
+                  active={tab === "user-list"}
+                  icon={HiOutlineUserGroup}
+                  labelColor="dark"
+                  as="div"
+                >
+                  Monitor Refund
+                </Sidebar.Item>
+              </Link>
+            </>
+          )}
+
+          <>
+            <Link to="/dashboard?tab=refund-schedule">
               <Sidebar.Item
-                active={tab === "users"}
+                active={tab === "refund-schedule"}
                 icon={HiOutlineUserGroup}
+                labelColor="dark"
                 as="div"
               >
-                Customer
+                Refund Schedule
               </Sidebar.Item>
             </Link>
-          )}
+          </>
+
           {!currentUser.isAdmin && (
             <Link to="/dashboard?tab=assistance">
               <Sidebar.Item

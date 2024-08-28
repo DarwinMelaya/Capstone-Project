@@ -131,7 +131,7 @@ export default function DashUsers() {
       {currentUser.isAdmin && users.length > 0 ? (
         <>
           <div className="flex justify-between mb-4">
-            <h2 className="text-2xl font-bold">Users</h2>
+            <h2 className="text-2xl font-bold">Customers</h2>
           </div>
           <div className="mb-4">
             <Button onClick={() => setShowAddModal(true)}>Add New User</Button>
@@ -327,51 +327,6 @@ export default function DashUsers() {
               value={newUser.email || ""}
               onChange={(e) =>
                 setNewUser({ ...newUser, email: e.target.value })
-              }
-            />
-            <TextInput
-              id="firmName"
-              label="Firm Name"
-              placeholder="Enter firm name"
-              value={editUser.firmName || ""}
-              onChange={(e) =>
-                setEditUser({ ...editUser, firmName: e.target.value })
-              }
-            />
-            <TextInput
-              id="municipality"
-              label="Municipality"
-              placeholder="Enter municipality"
-              value={editUser.municipality || ""}
-              onChange={(e) =>
-                setEditUser({ ...editUser, municipality: e.target.value })
-              }
-            />
-            <TextInput
-              id="firmOwner"
-              label="Firm Owner"
-              placeholder="Enter firm owner"
-              value={editUser.firmOwner || ""}
-              onChange={(e) =>
-                setEditUser({ ...editUser, firmOwner: e.target.value })
-              }
-            />
-            <TextInput
-              id="details"
-              label="Details"
-              placeholder="Enter details"
-              value={editUser.details || ""}
-              onChange={(e) =>
-                setEditUser({ ...editUser, details: e.target.value })
-              }
-            />
-            <TextInput
-              id="amountOfAssistance"
-              label="Amount Of Assistance"
-              placeholder="Enter amount of assistance"
-              value={editUser.amountOfAssistance || ""}
-              onChange={(e) =>
-                setEditUser({ ...editUser, amountOfAssistance: e.target.value })
               }
             />
             <TextInput

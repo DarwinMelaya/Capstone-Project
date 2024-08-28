@@ -49,9 +49,9 @@ export default function SignIn() {
         <div className="flex-1">
           <Link to="/" className="font-bold dark:text-white text-4xl">
             <span className="px-2 py-1 bg-gradient-to-r from-blue-800 via-blue-500 to-blue-400 rounded-lg text-white">
-              SETUP
+              DOST
             </span>
-            Refund Monitoring System
+            SETUP Refund Monitoring System
           </Link>
           <p className="text-sm mt-5">
             This is a demo project. You can sign in with your email and password
