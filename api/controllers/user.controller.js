@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
-import { errorHandler } from "../utils/error.js";
 import User from "../models/user.model.js";
+import MonthlyRefund from "../models/monthlyRefund.model.js";
+import { errorHandler } from "../utils/error.js";
 
 export const test = (req, res) => {
   res.json({ message: "API is working!" });
@@ -32,8 +33,8 @@ export const updateUser = async (req, res, next) => {
           firmOwner: req.body.firmOwner,
           details: req.body.details,
           amountOfAssistance: req.body.amountOfAssistance,
-          refunds: req.body.refunds, // Include the new refund fields
-          changeDate: req.body.changeDate, // Handle the changeDate field
+          refunds: req.body.refunds,
+          changeDate: req.body.changeDate,
         },
       },
       { new: true }
@@ -80,7 +81,8 @@ export const getUsers = async (req, res, next) => {
     const users = await User.find()
       .sort({ createdAt: sortDirection })
       .skip(startIndex)
-      .limit(limit);
+      .limit(limit)
+      .populate("monthlyRefunds");
 
     const usersWithoutPassword = users.map((user) => {
       const { password, ...rest } = user._doc;
@@ -106,5 +108,40 @@ export const getUsers = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+export const recordMonthlyRefund = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { refundPayment, arrears } = req.body;
+
+    // Calculate the current month and day
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}`;
+    const currentDay = String(now.getDate()).padStart(2, "0");
+
+    // Create the new MonthlyRefund document
+    const newMonthlyRefund = new MonthlyRefund({
+      user: userId,
+      month: currentMonth,
+      day: currentDay,
+      refundPayment,
+      arrears,
+    });
+
+    // Save the MonthlyRefund to the database
+    const savedMonthlyRefund = await newMonthlyRefund.save();
+
+    // Update the User model with the new MonthlyRefund reference
+    await User.findByIdAndUpdate(userId, {
+      $push: { monthlyRefunds: savedMonthlyRefund._id },
+    });
+
+    res.status(201).json(savedMonthlyRefund);
+  } catch (error) {
+    next(errorHandler(500, error.message));
   }
 };

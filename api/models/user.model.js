@@ -51,8 +51,11 @@ const userSchema = new mongoose.Schema(
     details: String,
     amountOfAssistance: Number,
     refunds: refundSchema,
-    schedules: [scheduleSchema], // Add this line
-    changeDate: { type: Date }, // New field for tracking the change date
+    schedules: [scheduleSchema],
+    changeDate: { type: Date },
+    monthlyRefunds: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "MonthlyRefund" },
+    ], // Reference to MonthlyRefund model
   },
   { timestamps: true }
 );

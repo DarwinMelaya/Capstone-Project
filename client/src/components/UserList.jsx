@@ -16,7 +16,6 @@ export default function DashUsers() {
   const [currentMonth, setCurrentMonth] = useState("");
 
   useEffect(() => {
-    // Get the current month and year
     const now = new Date();
     const options = { month: "long", year: "numeric" };
     setCurrentMonth(now.toLocaleDateString("en-US", options));
@@ -77,6 +76,7 @@ export default function DashUsers() {
 
   const handleUpdateUser = async () => {
     try {
+      // Update the user's details
       const res = await fetch(`/api/user/update/${editUser._id}`, {
         method: "PUT",
         headers: {
@@ -85,10 +85,17 @@ export default function DashUsers() {
         body: JSON.stringify(editUser),
       });
       const data = await res.json();
+
       if (res.ok) {
         setUsers((prev) =>
           prev.map((user) => (user._id === editUser._id ? data : user))
         );
+
+        // If user update is successful, record the monthly refund
+        const refundPayment = editUser.refunds?.refundPayment || 0;
+        const arrears = editUser.refunds?.arrears || 0;
+        await handleRecordMonthlyRefund(editUser._id, refundPayment, arrears);
+
         setShowEditModal(false);
       } else {
         console.log(data.message);
@@ -123,14 +130,34 @@ export default function DashUsers() {
     }));
   };
 
+  const handleRecordMonthlyRefund = async (userId, refundPayment, arrears) => {
+    try {
+      const res = await fetch(`/api/user/recordMonthlyRefund/${userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refundPayment, arrears }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        console.log("Monthly refund recorded successfully:", data);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && users.length > 0 ? (
         <>
           <div className="flex justify-between mb-4">
             <h2 className="text-2xl font-bold">Monitor Refund</h2>
-            <span className="text-xl font-medium">{currentMonth}</span>{" "}
-            {/* Display the current month */}
+            <span className="text-xl font-medium">{currentMonth}</span>
           </div>
           <Table hoverable className="shadow-md">
             <Table.Head>
